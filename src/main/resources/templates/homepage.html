@@ -18,13 +18,13 @@
 <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container-fluid ">
         <a class="navbar-brand text-light" href="#"><b>SplitBook</b></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <div>
             <ul class="navbar-nav" style="margin-left:auto;margin-right:10px">
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Logout</a>
+                    <form method="post" action="/logout">
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -40,8 +40,8 @@
         <div class="col">
             <div class="row">
                 <div name="title" style="height:100px;">
-				<span style="font-size:35px;font-style:italic">Welcome,
-				</span>
+				    <span style="font-size:35px;font-style:italic">Welcome,</span>
+                    <span style="font-size:35px;font-style:italic;color:#000099" th:text="${username}"></span>
                 </div>
             </div>
             <div class="row">

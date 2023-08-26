@@ -55,7 +55,7 @@
                     <img src="./images/signup.png" class="enlarge-on-hover" alt="Sign Up" style="height:250px;width:250px">
                 </div>
                 <div class="col-md-6">
-                    <form name="signupform" method="post" action="signupprocess">
+                    <form name="signupform" method="post" action="/signupprocess">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Preferably your first name" required>
@@ -71,7 +71,7 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <br>
                         <div class="mb-3">
-                            <span id="message" name="message" style="font-style:italic;font-size:15px;color:red">${message}</span>
+                            <span id="message" name="message" th:text="${msg}" style="font-style:italic;font-size:15px;color:red"></span>
                         </div>
                     </form>
                 </div>

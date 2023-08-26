@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "UserLogin")
 @NamedQueries(value = {
-        @NamedQuery(name = "query_find_by_email", query = "select u from UserLogin u where u.email = :email")
+        @NamedQuery(name = "query_find_by_username", query = "select u from UserLogin u where u.username = :username")
 })
 public class UserLogin {
 
@@ -18,6 +18,10 @@ public class UserLogin {
     private String password;
     @Column(nullable = false)
     private String name;
+    @Column(nullable = false, name = "username")
+    private String username;
+    @Column
+    private String role;
 
     public int getId() {
         return id;
@@ -49,5 +53,20 @@ public class UserLogin {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

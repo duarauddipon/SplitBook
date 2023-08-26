@@ -55,19 +55,22 @@
                     <img src="./images/login.png" class="enlarge-on-hover" alt="Login" style="height:250px;width:250px">
                 </div>
                 <div class="col-md-6">
-                    <form name="loginform" method="post" action="loginprocess">
+                    <form name="loginform" method="post" th:action="@{/login}">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
                         <br>
-                        <div class="mb-3">
-                            <span id="message" name="message" style="font-style:italic;font-size:15px;color:red">${message}</span>
+                        <div class="mb-3" th:if="${param.error}" style="font-style:italic;font-size:15px;color:red">
+                            Invalid username and password.
+                        </div>
+                        <div class="mb-3" th:if="${param.logout}" style="font-style:italic;font-size:15px;color:red">
+                            You have been logged out.
                         </div>
                     </form>
                 </div>

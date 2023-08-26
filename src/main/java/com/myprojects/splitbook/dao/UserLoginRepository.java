@@ -16,10 +16,10 @@ public class UserLoginRepository {
     @PersistenceContext
     EntityManager entityManager;
 
-    public UserLogin getUserByEmail(String email)
+    public UserLogin getUserByUsername(String username)
     {
-        TypedQuery<UserLogin> query = entityManager.createNamedQuery("query_find_by_email", UserLogin.class);
-        query.setParameter("email",email);
+        TypedQuery<UserLogin> query = entityManager.createNamedQuery("query_find_by_username", UserLogin.class);
+        query.setParameter("username",username);
         List<UserLogin> resultList = query.getResultList();
 
         if(resultList.isEmpty())
