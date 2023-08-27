@@ -10,7 +10,6 @@
       body
       {
           font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
-          background-color: #ccebff;
       }
   </style>
 </head>
@@ -18,8 +17,10 @@
 <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container-fluid ">
         <a class="navbar-brand text-light" href="#"><b>SplitBook</b></a>
-
-        <div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav" style="margin-left:auto;margin-right:10px">
                 <li class="nav-item">
                     <form method="post" action="/logout">
@@ -37,10 +38,11 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col">
+        <div class="col-1"></div>
+        <div class="col-10">
             <div class="row">
                 <div name="title" style="height:100px;">
-				    <span style="font-size:35px;font-style:italic">Welcome,</span>
+                    <span style="font-size:35px;font-style:italic">Welcome,</span>
                     <span style="font-size:35px;font-style:italic;color:#000099" th:text="${user.name}"></span>
                 </div>
             </div>
@@ -48,27 +50,34 @@
                 <div class="col-md-6">
                     <div class="card text-bg-primary mb-3" style="max-width: 23rem;">
                         <div class="card-body mt-3">
-                            <h5 class="card-title"><b>Planning a trip?</b></h5>
+                            <h5 class="card-title"><b>Manage my trips</b></h5>
                             <br>
-                            <p class="card-text">Start by adding a trip and SplitBook will manage all your expenses so that your trip goes hassle-free.</p>
-                            <a href="/addnewtrip" class="btn btn-outline-light">Add a trip</a>
+                            <p class="card-text">Let SplitBook handle all your expenses and contributions so that your trip goes hassle-free.</p>
+                            <a href="/welcome" class="btn btn-outline-light mb-3">Show my trips</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header text-bg-primary" style="font-weight:bold;font-size:20px">Your trips</div>
+                    <div class="card" style="max-width: 25rem;">
+                        <div class="card-header text-bg-primary" style="font-weight:bold;font-size:20px">Add your trip</div>
                         <div class="card-body">
-                            <div class="list-group">
-                                <div th:each="trip : ${mytrips}">
-                                    <a th:href="@{/mytrip/dashboard/{id}(id=${trip.name})}" class="list-group-item list-group-item-action" th:text="${trip.name}"></a>
+                            <form name="addtripform" method="post" action="/addtripprocess">
+                                <div class="mb-4">
+                                    <label for="tripname" class="form-label">Name of the trip</label>
+                                    <input type="text" class="form-control" id="tripname" name="tripname" placeholder="Give a name to your memorable trip">
                                 </div>
-                            </div>
+                                <button type="submit" class="btn btn-primary">Add trip!</button>
+                                <div class="mb-3">
+                                    <span th:text="${msg}"></span>
+                                    <br>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-1"></div>
     </div>
 </div>
 </body>

@@ -17,9 +17,14 @@ public class LoginService implements UserDetailsService {
     @Autowired
     UserLoginRepository userLoginRepository;
 
+    public UserLogin getUserByUsername(String username)         //method to abstract dao interface
+    {
+        return userLoginRepository.getUserByUsername(username);
+    }
+
     public String registerUser(UserLogin user)
     {
-        if(userLoginRepository.getUserByUsername(user.getUsername())!=null)       //username already registered
+        if(getUserByUsername(user.getUsername())!=null)       //username already registered
         {
             return "Email already registered!";
         }

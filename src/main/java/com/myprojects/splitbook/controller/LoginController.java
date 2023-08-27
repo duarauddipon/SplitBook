@@ -47,7 +47,9 @@ public class LoginController {
     @GetMapping("/welcome")
     public String displayHomepage(Authentication authentication, Model model)
     {
-        model.addAttribute("username",authentication.getName());
+        UserLogin user = loginService.getUserByUsername(authentication.getName());
+
+        model.addAttribute("user",user);
         return "homepage";
     }
 }
