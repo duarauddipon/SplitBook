@@ -1,5 +1,6 @@
 package com.myprojects.splitbook.controller;
 
+import com.myprojects.splitbook.entity.Trip;
 import com.myprojects.splitbook.entity.UserLogin;
 import com.myprojects.splitbook.service.LoginService;
 import com.myprojects.splitbook.service.TripService;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -32,10 +35,11 @@ public class UserController {
     public String addNewTrip(Authentication authentication, Model model, @RequestParam String tripname)
     {
         UserLogin user = loginService.getUserByUsername(authentication.getName());
-
         String res = tripService.addNewTrip(tripname,user.getId());
+
         model.addAttribute("msg",res);
         model.addAttribute("user",user);
+
         return "addtrip";
     }
 }

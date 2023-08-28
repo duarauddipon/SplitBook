@@ -60,6 +60,7 @@
                         <div class="card-header text-bg-primary" style="font-weight:bold;font-size:20px">Your trips</div>
                         <div class="card-body">
                             <div class="list-group">
+                                <div style="font-style:italic" th:if="${notrip}=='1'">You have no trips.</div>
                                 <div th:each="trip : ${mytrips}">
                                     <a th:href="@{/mytrip/dashboard/{id}(id=${trip.name})}" class="list-group-item list-group-item-action" th:text="${trip.name}"></a>
                                 </div>

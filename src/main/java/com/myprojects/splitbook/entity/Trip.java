@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQueries(value = {
+        @NamedQuery(name = "query_find_by_owner", query = "select t from Trip t where t.ownerId = :ownerid")
+})
 public class Trip {
 
     @Id

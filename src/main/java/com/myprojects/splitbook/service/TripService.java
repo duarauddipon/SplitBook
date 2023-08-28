@@ -7,6 +7,8 @@ import com.myprojects.splitbook.entity.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TripService {
 
@@ -24,5 +26,12 @@ public class TripService {
             return "Your trip was added!";
         }
         return "Error adding trip!";
+    }
+
+    public List<Trip> getTripsByOwner(int ownerid)
+    {
+
+        List<Trip> trips = tripRepository.getTripsByOwnerId(ownerid);
+        return trips;
     }
 }
