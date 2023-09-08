@@ -1,5 +1,6 @@
 package com.myprojects.splitbook.dao;
 
+import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,9 +17,20 @@ public class TripRepository {
     @PersistenceContext
     EntityManager entityManager;
 
-    public Trip insertTrip(Trip trip)
+    public boolean insertTrip(Trip trip, Member owner)
     {
-        return entityManager.merge(trip);
+        try {
+            trip.addNewMember(owner);
+            owner.setTrip(trip);
+            entityManager.persist(owner);
+            entityManager.merge(trip);
+            return true;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getStackTrace());
+        }
+        return false;
     }
 
     public List<Trip> getTripsByOwnerId(int id)
@@ -32,5 +44,31 @@ public class TripRepository {
             return null;
         }
         return resultList;
+    }
+
+    public Trip getTripById(int id)
+    {
+        TypedQuery<Trip> query = entityManager.createNamedQuery("query_find_by_id", Trip.class);
+        query.setParameter("id",id);
+        List<Trip> resultList = query.getResultList();
+
+        if(resultList.isEmpty())
+        {
+            return null;
+        }
+        return resultList.get(0);
+    }
+
+    public void insertMember(Trip trip,Member member)
+    {
+        trip.addNewMember(member);
+        member.setTrip(trip);
+        try{
+            entityManager.persist(member);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getStackTrace());
+        }
     }
 }

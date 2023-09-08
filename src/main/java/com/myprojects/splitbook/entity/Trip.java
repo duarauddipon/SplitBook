@@ -8,7 +8,8 @@ import java.util.List;
 
 @Entity
 @NamedQueries(value = {
-        @NamedQuery(name = "query_find_by_owner", query = "select t from Trip t where t.ownerId = :ownerid")
+        @NamedQuery(name = "query_find_by_owner", query = "select t from Trip t where t.ownerId = :ownerid"),
+        @NamedQuery(name = "query_find_by_id", query = "select t from Trip t where t.id = :id")
 })
 public class Trip {
 
@@ -19,7 +20,7 @@ public class Trip {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(mappedBy = "trip", cascade=CascadeType.ALL)
     private List<Member> members = new ArrayList<>();
 
     @Column(name = "ownerid")       //UserLogin ID

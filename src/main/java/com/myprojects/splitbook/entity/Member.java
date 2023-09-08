@@ -14,13 +14,14 @@ public class Member {
     private String name;
     @Column(name = "ownerind")
     private boolean owner;
-
+    @Column(name = "userid")
+    private int userId;         //UserLogin ID
     @ManyToOne
     private Trip trip;
-
+    @Column
+    private UserRole role;
     @OneToMany(mappedBy = "contributor")
     private List<Contribution> contributions = new ArrayList<>();
-
     @ManyToMany(mappedBy = "beneficiaryList")
     private List<Contribution> benefits = new ArrayList<>();
 
@@ -54,5 +55,21 @@ public class Member {
 
     public void setTrip(Trip trip) {
         this.trip = trip;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

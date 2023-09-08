@@ -1,9 +1,9 @@
 package com.myprojects.splitbook.controller;
 
-import com.myprojects.splitbook.entity.Trip;
 import com.myprojects.splitbook.entity.UserLogin;
+import com.myprojects.splitbook.service.BusinessUtils;
 import com.myprojects.splitbook.service.LoginService;
-import com.myprojects.splitbook.service.TripService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @Controller
 public class LoginController {
 
     @Autowired
     LoginService loginService;
     @Autowired
-    TripService tripService;
+    BusinessUtils utils;
 
     @GetMapping("/index")
     public String showWelcomePage()
@@ -30,8 +28,12 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String displayLoginPage()
+    public String displayLoginPage(HttpServletRequest request)
     {
+        if(request.getUserPrincipal()!=null)    //if user is still logged in
+        {
+            return "redirect:/logout";
+        }
         return "loginpage";
     }
 
@@ -54,18 +56,10 @@ public class LoginController {
     public String displayHomepage(Authentication authentication, Model model)
     {
         UserLogin user = loginService.getUserByUsername(authentication.getName());
-        List<Trip> trips = tripService.getTripsByOwner(user.getId());
 
-        if(trips==null)
-        {
-            model.addAttribute("notrip",'1');
-        }
-        else
-        {
-            model.addAttribute("notrip",'0');
-        }
-        model.addAttribute("user",user);
-        model.addAttribute("mytrips",trips);
+        utils.initAttributes(user,model);
+
         return "homepage";
     }
+
 }

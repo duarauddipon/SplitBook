@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "UserLogin")
 @NamedQueries(value = {
-        @NamedQuery(name = "query_find_by_username", query = "select u from UserLogin u where u.username = :username")
+        @NamedQuery(name = "query_find_by_username", query = "select u from UserLogin u where u.username = :username"),
+        @NamedQuery(name = "query_all", query = "select u from UserLogin u")
 })
 public class UserLogin {
 
@@ -69,4 +70,5 @@ public class UserLogin {
     public void setRole(String role) {
         this.role = role;
     }
+
 }

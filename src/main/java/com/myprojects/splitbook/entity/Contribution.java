@@ -23,7 +23,7 @@ public class Contribution {
     private Member contributor;
 
     @ManyToMany
-    @JoinTable(name = "contributionbeneficiary",
+    @JoinTable(name = "ContributionBeneficiary",
                 joinColumns = @JoinColumn(name = "contributionid"),
                 inverseJoinColumns = @JoinColumn(name = "memberid"))
     private List<Member> beneficiaryList = new ArrayList<>();

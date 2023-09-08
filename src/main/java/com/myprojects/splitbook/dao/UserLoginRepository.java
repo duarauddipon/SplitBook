@@ -33,4 +33,12 @@ public class UserLoginRepository {
     {
         return entityManager.merge(user);
     }
+
+    public List<UserLogin> getAllUsers()
+    {
+        TypedQuery<UserLogin> query = entityManager.createNamedQuery("query_all", UserLogin.class);
+        List<UserLogin> res = query.getResultList();
+
+        return res;
+    }
 }

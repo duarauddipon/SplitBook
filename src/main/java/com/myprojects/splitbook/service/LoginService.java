@@ -44,7 +44,13 @@ public class LoginService implements UserDetailsService {
         newUser.setName(name);
         newUser.setEmail(email.toLowerCase());                  //to avoid duplicates
         newUser.setPassword(password);
-        newUser.setUsername(name.toLowerCase()+random.nextInt(1000));  //generating a random unique username
+        String nameCheck;
+
+        do{
+            nameCheck = name.toLowerCase()+random.nextInt(1000);    //generating a random unique username until unique username is found
+        }while (getUserByUsername(nameCheck)!=null);
+
+        newUser.setUsername(nameCheck);
         newUser.setRole("USER");        //TODO : hardcoding for now;add other roles
 
         return newUser;
