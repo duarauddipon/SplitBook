@@ -24,7 +24,7 @@
             const suggestionList = document.getElementById('friendsList');
             const inputValue = inputElement.value;
             const trip = document.getElementById('tripid');
-            const tripId = trip.value;
+            const tripId = trip.textContent;
 
             suggestionList.innerHTML = '';
 
@@ -72,9 +72,9 @@
         <span class="navbar-brand text-light" style="font-size:25px"><b>SplitBook</b></span>
         <div style="margin-left:auto;margin-right:10px">
             <div class="navbuttons" title="Go to Home">
-                <button type="submit" class="btn btn-primary">
+                <a class="btn btn-primary" href="/welcome">
                     <i class="fa fa-home" aria-hidden="true" style="font-size:25px"></i>
-                </button>
+                </a>
             </div>
             <div class="navbuttons" title="Logout">
                 <form method="post" action="/logout">
@@ -129,6 +129,9 @@
                                 <a href="#" class="btn btn-success mt-3" style="text-align:center;width:190px"><b>Export report</b></a>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <span th:text="${msg1}" style="font-style:italic;font-weight:bold"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -210,9 +213,6 @@
                                     <input type="text" class="form-control" id="membername" name="membername" onkeyup="fetchFriends()" placeholder="Type your friend's name...">
                                 </div>
                                 <div class="list-group" id="friendsList" style="display: block; max-height: 80px; overflow-y: scroll"></div>
-                                <div>
-                                    <span th:text="${msg1}" style="font-style:italic;font-weight:bold"></span>
-                                </div>
                             </form>
                         </div>
                     </div>

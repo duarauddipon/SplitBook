@@ -25,7 +25,7 @@ public class FriendController {
     @GetMapping("/getfriend")
     public List<UserDto> getFriendSuggestions(@RequestParam String query, Authentication authentication)
     {
-        String key = query.trim();
+        String key = query.trim().toLowerCase();
         if(key.equals(""))
         {
             return new ArrayList<>();
@@ -34,7 +34,7 @@ public class FriendController {
         UserLogin user = loginService.getUserByUsername(authentication.getName());
         List<UserDto> users = userFriendService.findAllUsers();
         List<UserDto> res = users.stream()
-                                 .filter(x->x.getUsername().startsWith(key))
+                                 .filter(x->x.getUsername().toLowerCase().startsWith(key))
                                  .filter(x->x.getUid()!=user.getId())
                                  .collect(Collectors.toList());
         return res;
@@ -53,7 +53,7 @@ public class FriendController {
     @GetMapping("/getmember")
     public List<UserDto> getMemberSuggestions(@RequestParam String query, Authentication authentication)
     {
-        String key = query.trim();
+        String key = query.trim().toLowerCase();
         if(key.equals(""))
         {
             return new ArrayList<>();
@@ -62,7 +62,7 @@ public class FriendController {
         UserLogin user = loginService.getUserByUsername(authentication.getName());
         List<UserDto> friends = userFriendService.getAllFriends(user.getId());
         List<UserDto> res = friends.stream()
-                                   .filter(x->x.getName().startsWith(key))
+                                   .filter(x->x.getName().toLowerCase().startsWith(key))
                                    .collect(Collectors.toList());
         return res;
     }
