@@ -1,5 +1,6 @@
 package com.myprojects.splitbook.service;
 
+import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
 import com.myprojects.splitbook.entity.UserLogin;
 import com.myprojects.splitbook.entity.dto.UserDto;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,8 +44,20 @@ public class BusinessUtils {
         model.addAttribute("requestcount",requestCount);
     }
 
-    public UserDto UserDtoMapper(UserLogin user)
+    public UserDto userDtoMapper(UserLogin user)
     {
         return new UserDto(user.getId(), user.getName(), user.getUsername());
+    }
+
+    public List<Member> memberListMapper(int[] ids)
+    {
+        List<Member> res = new ArrayList<>();
+        for(int x : ids)
+        {
+            Member m = tripService.getMemberById(x);
+            res.add(m);
+        }
+
+        return res;
     }
 }

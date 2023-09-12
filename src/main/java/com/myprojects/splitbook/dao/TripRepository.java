@@ -1,5 +1,6 @@
 package com.myprojects.splitbook.dao;
 
+import com.myprojects.splitbook.entity.Contribution;
 import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
 import jakarta.persistence.EntityManager;
@@ -16,6 +17,8 @@ public class TripRepository {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    public static final String query_find_members_trip = "SELECT m FROM Member m where m.trip.id = : tripid";
 
     public boolean insertTrip(Trip trip, Member owner)
     {
@@ -69,6 +72,53 @@ public class TripRepository {
         catch (Exception e)
         {
             System.out.println(e.getStackTrace());
+        }
+    }
+
+    public List<Member> findMembersByTripId(int tripId)
+    {
+        TypedQuery<Member> query = entityManager.createQuery(query_find_members_trip, Member.class);
+        query.setParameter("tripid",tripId);
+        List<Member> resultList = query.getResultList();
+
+        return resultList;
+    }
+
+    public Member findMemberByMemberId(int memberId)
+    {
+        try {
+            TypedQuery<Member> query = entityManager.createNamedQuery("query_find_member_by_id",Member.class);
+            query.setParameter("mid",memberId);
+            Member member = query.getSingleResult();
+            return member;
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getStackTrace());
+        }
+
+        return null;
+    }
+
+    public void insertContribution(Contribution contribution, List<Member> beneficiaries, Member contributor)
+    {
+        try
+        {
+            //contribution.setContributor(contributor);    //already been set by modelAttribute
+            contributor.addContribution(contribution);
+            //entityManager.merge(contributor);
+            for(Member b : beneficiaries)
+            {
+                contribution.addBeneficiary(b);
+                b.addBenefit(contribution);
+                //entityManager.merge(b);
+            }
+            entityManager.merge(contribution);
+
+        }
+        catch (Exception ex)
+        {
+            System.out.println("See here -> "+ex.getMessage());
         }
     }
 }

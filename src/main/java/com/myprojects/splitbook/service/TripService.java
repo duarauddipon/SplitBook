@@ -1,10 +1,7 @@
 package com.myprojects.splitbook.service;
 
 import com.myprojects.splitbook.dao.TripRepository;
-import com.myprojects.splitbook.entity.Member;
-import com.myprojects.splitbook.entity.Trip;
-import com.myprojects.splitbook.entity.UserLogin;
-import com.myprojects.splitbook.entity.UserRole;
+import com.myprojects.splitbook.entity.*;
 import com.myprojects.splitbook.entity.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +64,21 @@ public class TripService {
         tripRepository.insertMember(trip,newMember);
 
         return "Member added.";
+    }
+
+    public List<Member> getTripMembers(int tripId)
+    {
+        return tripRepository.findMembersByTripId(tripId);
+    }
+
+    public void addContribution(Contribution contribution, List<Member> beneficiaries)
+    {
+        tripRepository.insertContribution(contribution,beneficiaries, contribution.getContributor());
+    }
+
+    public Member getMemberById(int id)
+    {
+        return tripRepository.findMemberByMemberId(id);
     }
 
 }

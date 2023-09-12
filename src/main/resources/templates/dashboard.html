@@ -11,11 +11,18 @@
         $(document).ready(function(){
 			$("#addmemberbtn").click(function(){
 				$("#dashboardcard").fadeOut();
+				$("#contributioncard").fadeOut();
 				$("#addmembercard").delay(500).fadeIn();
 			});
 			$("#dashboardbtn").click(function(){
 				$("#addmembercard").fadeOut();
+				$("#contributioncard").fadeOut();
 				$("#dashboardcard").delay(500).fadeIn();
+			});
+			$("#addcontributionbtn").click(function(){
+				$("#addmembercard").fadeOut();
+				$("#dashboardcard").fadeOut();
+				$("#contributioncard").delay(500).fadeIn();
 			});
 		});
 		function fetchFriends()
@@ -216,7 +223,51 @@
                             </form>
                         </div>
                     </div>
-
+                    <div class="card" id="contributioncard" style="max-width: 30rem;display:none">
+                        <div class="card-header text-bg-warning" style="font-weight:bold;font-size:20px">Add a contribution</div>
+                        <div class="card-body">
+                            <form method="post" th:action="@{/addcontribution}" th:object="${contribution}">
+                                <input type="hidden" th:value="${trip.id}" name="tripid">
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="description" name ="description" th:value="*{description}" style="max-width:25rem" placeholder="e.g. movie tickets,fuel,etc">
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="date" class="form-label">Date</label>
+                                        <input type="date" class="form-control" id="date" name="date" th:value="*{date}" style="max-width:10rem">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₹</span>
+                                            <input type="number" class="form-control" id="amount" name="amount" th:value="*{amount}" style="max-width:8rem"	>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Contributor's name</label>
+                                        <select class="form-select" id="contributor" name="contributor" th:value="*{contributor}" style="max-width:10rem">
+                                            <option th:each="member : ${mymembers}" th:value="${member.id}" th:text="${member.name}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="selectbeneficiaries" class="form-label">Select your friends</label>
+                                        <div id="selectbeneficiaries" style="max-width:9rem;border-radius:20px;border:1px solid;padding:5px 5px 5px 5px">
+                                            <div th:each="member : ${mymembers}">
+                                                <input class="form-check-input"  type="checkbox" name="beneficiaries" th:value="${member.id}"/>
+                                                <span th:text="${member.name}"></span><br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <button type="submit" class="btn btn-warning" style="max-width:8rem;font-weight:bold">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

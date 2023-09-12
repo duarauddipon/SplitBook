@@ -1,5 +1,7 @@
 package com.myprojects.splitbook.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -20,6 +22,7 @@ public class Trip {
     @Column(nullable = false)
     private String name;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "trip", cascade=CascadeType.ALL)
     private List<Member> members = new ArrayList<>();
 
@@ -30,6 +33,7 @@ public class Trip {
     private BigDecimal totalExpense;
 
     @OneToMany(mappedBy = "trip")
+    @JsonManagedReference
     private List<Contribution> contributions = new ArrayList<>();
 
     public int getId() {

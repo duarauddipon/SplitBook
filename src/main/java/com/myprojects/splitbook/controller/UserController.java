@@ -1,5 +1,7 @@
 package com.myprojects.splitbook.controller;
 
+import com.myprojects.splitbook.entity.Contribution;
+import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
 import com.myprojects.splitbook.entity.UserLogin;
 import com.myprojects.splitbook.entity.dto.UserDto;
@@ -12,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -54,6 +53,9 @@ public class UserController {
             throw new ForbiddenException();
         }
         model.addAttribute("trip",trip);
+        List<Member> members = tripService.getTripMembers(trip.getId());
+        model.addAttribute("mymembers",members);
+        model.addAttribute("contribution",new Contribution());
         return "dashboard";
     }
 
@@ -104,11 +106,26 @@ public class UserController {
     {
         UserLogin userLogin = loginService.getUserByUsername(username);
         Trip trip = tripService.getTripById(tripid);
-        UserDto userDto = utils.UserDtoMapper(userLogin);
+        UserDto userDto = utils.userDtoMapper(userLogin);
         String res = tripService.addMemberToTrip(userDto,tripid);
 
         model.addAttribute("msg1",res);
         model.addAttribute("trip",trip);
+        List<Member> members = tripService.getTripMembers(trip.getId());
+        model.addAttribute("mymembers",members);
+        model.addAttribute("contribution",new Contribution());
         return "dashboard";
+    }
+
+    @PostMapping("/addcontribution")
+    public String doAddContribution(@ModelAttribute Contribution contribution, @RequestParam int tripid,
+                                    @RequestParam(value = "beneficiaries") int[] beneficiaries)
+    {
+        Trip trip = tripService.getTripById(tripid);
+        contribution.setTrip(trip);
+        trip.addContribution(contribution);
+        List<Member> memberBeneficiaries = utils.memberListMapper(beneficiaries);
+        tripService.addContribution(contribution,memberBeneficiaries);
+        return "redirect:/mytrip/dashboard/"+tripid;
     }
 }
