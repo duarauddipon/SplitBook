@@ -51,27 +51,27 @@
 		}
     </script>
     <style>
-      body
-      {
-          font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
-		  background-color: #ffebe6;
-      }
-      .navbuttons
-      {
-        padding : 5px 5px 5px 5px;
-        display : inline-block;
-      }
-      .suggestion-link {
-        display: block;
-        padding: 0px;
-        text-decoration: none;
-        color: #333;
-        font-weight:bold;
-      }
-      .suggestion-link:hover {
-        background-color: #f0f0f0;
-      }
-  </style>
+        body
+        {
+            font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+            background-color: #ffebe6;
+        }
+        .navbuttons
+        {
+          padding : 5px 5px 5px 5px;
+          display : inline-block;
+        }
+        .suggestion-link {
+          display: block;
+          padding: 0px;
+          text-decoration: none;
+          color: #333;
+          font-weight:bold;
+        }
+        .suggestion-link:hover {
+          background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-primary">
@@ -103,7 +103,7 @@
         <div class="col">
             <div class="row">
                 <div style="height:100px;">
-                    <span th:text="${trip.name}" style="font-size:35px;font-style:italic"></span>
+                    <span th:text="${trip.name}" style="font-size:40px;font-style:italic"></span>
                     <span th:text="${trip.id}" style="display:none" id="tripid"></span>
                 </div>
             </div>
@@ -146,23 +146,32 @@
                         <div class="card-header text-bg-danger" style="font-weight:bold;font-size:20px">Dashboard</div>
                         <div class="card-body">
                             <div class="row mb-3">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <div class="card border-danger">
-                                        <h4 class="card-header" style="margin-bottom:20px;font-weight:bold">Total&nbsp;&nbsp;&nbsp;&nbsp<i class="fa fa-credit-card" aria-hidden="true"></i></h4>
-                                        <div class="card-body text-danger">
-                                            <h4 class="card-text text-end mt-2" style="font-weight:bold;font-style:italic">₹ 5778.00</h4>
+                                        <h4 class="card-header" style="margin-bottom:10px;font-weight:bold">Summary<i class="fa fa-credit-card" aria-hidden="true" style="float:right"></i></h4>
+                                        <div class="card-body text-danger" style="height:110px">
+                                            <h4 class="card-text text-end mt-2" style="font-weight:bold;font-style:italic">₹&nbsp;<span th:text="${totalexpense}"></span></h4>
+                                            <h4 class="card-text text-end mt-2" style="font-weight:bold;font-style:italic"><span th:text="${memberscount}"></span>&nbsp;members</h4>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                     <div class="card border-primary" >
-                                        <h4 class="card-header" style="margin-bottom:20px;font-weight:bold">Summary</h4>
+                                        <h4 class="card-header" style="margin-bottom:20px;font-weight:bold">Results<i class="fa fa-info-circle" aria-hidden="true" style="float:right" title="Check here for the end results and clear out all the settlements"></i></h4>
                                         <div class="card-body" style="padding:0px 0px 0px 10px">
                                             <table class="table table-borderless">
-                                                <tbody style="display: block; height: 55px; overflow-y: scroll">
+                                                <tbody style="display: block;height: 84px; overflow-y: scroll">
                                                 <tr>
                                                     <td style="font-style:italic;padding:0px 0px 3px 0px;width:250px">Uddi owes Ishani : </td>
                                                     <td style="font-weight:bold;padding:0px 0px 3px 0px;">Rs.657</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-style:italic;padding:0px 0px 3px 0px;width:250px">Bishal owes Ishani : </td>
+                                                    <td style="font-weight:bold;padding:0px 0px 3px 0px">Rs.240</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-style:italic;padding:0px 0px 3px 0px;width:250px">Bishal owes Ishani : </td>
+                                                    <td style="font-weight:bold;padding:0px 0px 3px 0px">Rs.240</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-style:italic;padding:0px 0px 3px 0px;width:250px">Bishal owes Ishani : </td>
@@ -183,26 +192,14 @@
                                 <div class="col-md-12">
                                     <div class="card text-bg-light">
                                         <h4 class="card-header" style="font-weight:bold">Records</h4>
-                                        <div class="card-body">
+                                        <div class="card-body" style="padding-bottom:0px">
                                             <table class="table table-borderless table-light">
-                                                <tbody style="display: block; height: 60px; overflow-y: scroll">
-                                                <tr>
-                                                    <th scope="row" style="padding:0px 0px 3px 0px;width:100px">Mar-10</th>
-                                                    <td style="font-weight:bold;padding:0px 0px 3px 0px;width:120px">Petrol</td>
-                                                    <td style="font-style:italic;padding:0px 0px 3px 0px;width:270px">Ishani paid Rs.3000 for Ishani,Uddi</td>
-                                                    <td style="padding:0px 0px 3px 0px"><a href="#" title="Delete this record"><i class="fa fa-times" aria-hidden="true" style="font-size:15px;color:red"></i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" style="padding:0px 0px 3px 0px;width:100px">Mar-10</th>
-                                                    <td style="font-weight:bold;padding:0px 0px 3px 0px;width:120px">Petrol</td>
-                                                    <td style="font-style:italic;padding:0px 0px 3px 0px">Ishani paid Rs.3000 for Ishani,Uddi</td>
-                                                    <td style="padding:0px 0px 3px 0px"><a href="#" title="Delete this record"><i class="fa fa-times" aria-hidden="true" style="font-size:15px;color:red"></i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" style="padding:0px 0px 3px 0px;width:100px">Mar-10</th>
-                                                    <td style="font-weight:bold;padding:0px 0px 3px 0px;width:120px">Petrol</td>
-                                                    <td style="font-style:italic;padding:0px 0px 3px 0px">Ishani paid Rs.3000 for Ishani,Uddi</td>
-                                                    <td style="padding:0px 0px 3px 0px"><a href="#" title="Delete this record"><i class="fa fa-times" aria-hidden="true" style="font-size:15px;color:red"></i></a></td>
+                                                <tbody style="display: block;height:100px; overflow-y: scroll">
+                                                <tr th:each="record : ${records}">
+                                                    <th scope="row" style="padding:0px 0px 3px 0px;width:100px" th:text="${record.date}"></th>
+                                                    <td style="font-weight:bold;padding:0px 0px 3px 0px;width:100px" th:text="${record.description}"></td>
+                                                    <td style="font-style:italic;padding:0px 0px 3px 0px;width:300px" th:text="${record.info}"></td>
+                                                    <td style="padding:0px 0px 3px 0px"><a th:href="@{/deleterecord/{tripid}/{rid}(tripid=${record.tid},rid=${record.cid})}" title="Delete this record"><i class="fa fa-times" aria-hidden="true" style="font-size:15px;color:red"></i></a></td>
                                                 </tr>
                                                 </tbody>
                                             </table>

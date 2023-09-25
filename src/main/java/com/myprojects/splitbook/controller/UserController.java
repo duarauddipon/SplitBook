@@ -4,6 +4,7 @@ import com.myprojects.splitbook.entity.Contribution;
 import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
 import com.myprojects.splitbook.entity.UserLogin;
+import com.myprojects.splitbook.entity.dto.RecordsDto;
 import com.myprojects.splitbook.entity.dto.UserDto;
 import com.myprojects.splitbook.exception.ForbiddenException;
 import com.myprojects.splitbook.service.BusinessUtils;
@@ -56,6 +57,10 @@ public class UserController {
         List<Member> members = tripService.getTripMembers(trip.getId());
         model.addAttribute("mymembers",members);
         model.addAttribute("contribution",new Contribution());
+        List<RecordsDto> records = utils.parseTripContributions(trip);
+        model.addAttribute("records",records);
+        model.addAttribute("memberscount",members.size());
+        model.addAttribute("totalexpense",tripService.getTotalExpense(id));
         return "dashboard";
     }
 
@@ -114,6 +119,10 @@ public class UserController {
         List<Member> members = tripService.getTripMembers(trip.getId());
         model.addAttribute("mymembers",members);
         model.addAttribute("contribution",new Contribution());
+        List<RecordsDto> records = utils.parseTripContributions(trip);
+        model.addAttribute("records",records);
+        model.addAttribute("memberscount",members.size());
+        model.addAttribute("totalexpense",tripService.getTotalExpense(tripid));
         return "dashboard";
     }
 
@@ -122,10 +131,21 @@ public class UserController {
                                     @RequestParam(value = "beneficiaries") int[] beneficiaries)
     {
         Trip trip = tripService.getTripById(tripid);
+        if(beneficiaries==null||beneficiaries.length==0)
+        {
+            return "redirect:/mytrip/dashboard/"+tripid;
+        }
         contribution.setTrip(trip);
         trip.addContribution(contribution);
         List<Member> memberBeneficiaries = utils.memberListMapper(beneficiaries);
         tripService.addContribution(contribution,memberBeneficiaries);
+        return "redirect:/mytrip/dashboard/"+tripid;
+    }
+
+    @GetMapping("/deleterecord/{tripid}/{rid}")             //TODO : Use @preauthorize to check authorization for deletion
+    public String doDeleteContributionRecord(@PathVariable int tripid, @PathVariable int rid)
+    {
+        tripService.deleteContribution(rid);
         return "redirect:/mytrip/dashboard/"+tripid;
     }
 }

@@ -47,7 +47,7 @@ public class LoginService implements UserDetailsService {
         String nameCheck;
 
         do{
-            nameCheck = name.toLowerCase()+random.nextInt(1000);    //generating a random unique username until unique username is found
+            nameCheck = name.replaceAll("\\s", "").toLowerCase()+random.nextInt(1000);    //generating a random unique username until unique username is found
         }while (getUserByUsername(nameCheck)!=null);
 
         newUser.setUsername(nameCheck);

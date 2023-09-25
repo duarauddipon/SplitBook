@@ -1,7 +1,6 @@
 package com.myprojects.splitbook.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -10,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQueries(value = {
+        @NamedQuery(name = "query_find_contribution_by_id", query = "select c from Contribution c where c.id = :cid")
+})
 public class Contribution {
 
     @Id
@@ -29,7 +31,7 @@ public class Contribution {
     @JsonBackReference
     private Member contributor;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.PERSIST)
     @JoinTable(name = "ContributionBeneficiary",
                 joinColumns = @JoinColumn(name = "contributionid"),
                 inverseJoinColumns = @JoinColumn(name = "memberid"))

@@ -6,6 +6,7 @@ import com.myprojects.splitbook.entity.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -25,6 +26,8 @@ public class TripService {
         newMember.setOwner(true);
         newMember.setUserId(user.getId());
         newMember.setRole(UserRole.ADMIN);
+        newMember.setCredit(BigDecimal.ZERO);
+        newMember.setDebit(BigDecimal.ZERO);
 
         if(tripRepository.insertTrip(trip,newMember))
         {
@@ -61,6 +64,8 @@ public class TripService {
         newMember.setUserId(member.getUid());
         newMember.setOwner(false);
         newMember.setRole(UserRole.USER);
+        newMember.setCredit(BigDecimal.ZERO);
+        newMember.setDebit(BigDecimal.ZERO);
         tripRepository.insertMember(trip,newMember);
 
         return "Member added.";
@@ -81,4 +86,22 @@ public class TripService {
         return tripRepository.findMemberByMemberId(id);
     }
 
+    public void deleteContribution(int cid)
+    {
+        tripRepository.removeContribution(cid);
+    }
+
+    public float getTotalExpense(int tripId)
+    {
+        Trip trip = tripRepository.getTripById(tripId);
+        List<Contribution> contributions = trip.getContributions();
+
+        float res = 0.00F;
+        for(Contribution c : contributions)
+        {
+            res += c.getAmount().floatValue();
+        }
+
+        return res;
+    }
 }

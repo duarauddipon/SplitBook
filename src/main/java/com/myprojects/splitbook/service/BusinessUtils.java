@@ -1,8 +1,10 @@
 package com.myprojects.splitbook.service;
 
+import com.myprojects.splitbook.entity.Contribution;
 import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
 import com.myprojects.splitbook.entity.UserLogin;
+import com.myprojects.splitbook.entity.dto.RecordsDto;
 import com.myprojects.splitbook.entity.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +61,39 @@ public class BusinessUtils {
         }
 
         return res;
+    }
+
+    public List<RecordsDto> parseTripContributions(Trip trip)
+    {
+        List<RecordsDto> records = new ArrayList<>();
+
+        for(Contribution c : trip.getContributions())
+        {
+            RecordsDto r = new RecordsDto();
+            r.setDate(c.getDate());
+            r.setDescription(c.getDescription());
+            r.setInfo(generateRecordInfo(c));
+            r.setCid(c.getId());
+            r.setTid(trip.getId());
+
+            records.add(r);
+        }
+
+        return records;
+    }
+
+    public String generateRecordInfo(Contribution contribution)
+    {
+        String contributor = contribution.getContributor().getName();
+        String amount = contribution.getAmount().toString();
+        String beneficiaries = "";
+        for(Member b : contribution.getBeneficiaryList())
+        {
+            beneficiaries += b.getName();
+            beneficiaries += ",";
+        }
+        beneficiaries = beneficiaries.substring(0,beneficiaries.length()-1);
+
+        return contributor + " paid Rs." + amount + " for "+beneficiaries;
     }
 }

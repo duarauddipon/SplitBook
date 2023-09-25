@@ -1,9 +1,9 @@
 package com.myprojects.splitbook.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,12 +26,16 @@ public class Member {
     private Trip trip;
     @Column
     private UserRole role;
-    @OneToMany(mappedBy = "contributor",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "contributor")
     @JsonManagedReference
     private List<Contribution> contributions = new ArrayList<>();
-    @ManyToMany(mappedBy = "beneficiaryList",cascade=CascadeType.ALL)
+    @ManyToMany(mappedBy = "beneficiaryList")
     @JsonManagedReference
     private List<Contribution> benefits = new ArrayList<>();
+    @Column
+    private BigDecimal credit;
+    @Column
+    private BigDecimal debit;
 
     public int getId() {
         return id;
@@ -95,6 +99,22 @@ public class Member {
 
     public void addBenefit(Contribution benefit) {
         benefits.add(benefit);
+    }
+
+    public BigDecimal getCredit() {
+        return credit;
+    }
+
+    public void setCredit(BigDecimal credit) {
+        this.credit = credit;
+    }
+
+    public BigDecimal getDebit() {
+        return debit;
+    }
+
+    public void setDebit(BigDecimal debit) {
+        this.debit = debit;
     }
 
     @Override

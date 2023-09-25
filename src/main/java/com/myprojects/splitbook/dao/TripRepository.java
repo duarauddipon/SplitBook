@@ -3,6 +3,7 @@ package com.myprojects.splitbook.dao;
 import com.myprojects.splitbook.entity.Contribution;
 import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
+import com.myprojects.splitbook.service.SplitServiceImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -31,7 +32,7 @@ public class TripRepository {
         }
         catch (Exception e)
         {
-            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
         }
         return false;
     }
@@ -71,7 +72,7 @@ public class TripRepository {
         }
         catch (Exception e)
         {
-            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -94,7 +95,7 @@ public class TripRepository {
         }
         catch (Exception ex)
         {
-            System.out.println(ex.getStackTrace());
+            System.out.println(ex.getMessage());
         }
 
         return null;
@@ -106,19 +107,45 @@ public class TripRepository {
         {
             //contribution.setContributor(contributor);    //already been set by modelAttribute
             contributor.addContribution(contribution);
-            //entityManager.merge(contributor);
             for(Member b : beneficiaries)
             {
                 contribution.addBeneficiary(b);
                 b.addBenefit(contribution);
-                //entityManager.merge(b);
             }
             entityManager.merge(contribution);
+            SplitServiceImpl.initCreditDebit(contribution);         //Modify cr,dr for the members
 
         }
         catch (Exception ex)
         {
             System.out.println("See here -> "+ex.getMessage());
+        }
+    }
+
+    public Contribution findContributionById(int cid)
+    {
+        try {
+            TypedQuery<Contribution> query = entityManager.createNamedQuery("query_find_contribution_by_id", Contribution.class);
+            query.setParameter("cid",cid);
+            return query.getSingleResult();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public void removeContribution(int cid)         //TODO : TEST ADDING/REMOVING CONTRIBUTIONS
+    {
+        try {
+            Contribution contribution = findContributionById(cid);
+            SplitServiceImpl.removeCreditDebit(contribution);       //Reverting cr/dr of the members
+            entityManager.remove(contribution);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
         }
     }
 }
