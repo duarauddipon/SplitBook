@@ -57,7 +57,7 @@ public class LoginController {
     {
         UserLogin user = loginService.getUserByUsername(authentication.getName());
 
-        utils.initAttributes(user,model);
+        utils.initHomepageAttributes(user,model);
 
         return "homepage";
     }

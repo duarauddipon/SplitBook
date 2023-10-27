@@ -5,6 +5,7 @@ import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
 import com.myprojects.splitbook.entity.UserLogin;
 import com.myprojects.splitbook.entity.dto.RecordsDto;
+import com.myprojects.splitbook.entity.dto.SettlementsDto;
 import com.myprojects.splitbook.entity.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class BusinessUtils {
     TripService tripService;
     @Autowired
     UserFriendService userFriendService;
+    @Autowired
+    SplitServiceImpl splitService;
 
     private static final String FRIEND_REQUEST_SUFFIX = " wants to be your friend.";
 
@@ -29,7 +32,7 @@ public class BusinessUtils {
         return res;
     }
 
-    public void initAttributes(UserLogin user, Model model)
+    public void initHomepageAttributes(UserLogin user, Model model)
     {
         model.addAttribute("username",user.getName());
         List<Trip> trips = tripService.getTripsByOwner(user.getId());
@@ -44,6 +47,20 @@ public class BusinessUtils {
         model.addAttribute("mytrips",trips);
         int requestCount = userFriendService.getFriendRequests(user.getId()).size();
         model.addAttribute("requestcount",requestCount);
+    }
+
+    public void initDashboardAttributes(Trip trip, Model model)
+    {
+        model.addAttribute("trip",trip);
+        List<Member> members = tripService.getTripMembers(trip.getId());
+        model.addAttribute("mymembers",members);
+        model.addAttribute("contribution",new Contribution());
+        List<RecordsDto> records = parseTripContributions(trip);
+        model.addAttribute("records",records);
+        model.addAttribute("memberscount",members.size());
+        model.addAttribute("totalexpense",tripService.getTotalExpense(trip.getId()));
+        List<SettlementsDto> results = splitService.initSettlements(trip);
+        model.addAttribute("results",results);
     }
 
     public UserDto userDtoMapper(UserLogin user)

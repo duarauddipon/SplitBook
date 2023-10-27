@@ -1,11 +1,9 @@
 package com.myprojects.splitbook.entity.dto;
 
-import java.math.BigDecimal;
-
 public class SettlementsDto {
 
     private String info;
-    private BigDecimal amount;
+    private float amount;
 
     public String getInfo() {
         return info;
@@ -15,11 +13,26 @@ public class SettlementsDto {
         this.info = info;
     }
 
-    public BigDecimal getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
+    }
+
+    public SettlementsDto()
+    {
+        super();
+    }
+
+    public SettlementsDto(String info, float amount) {
+        this.info = info;
+        this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return info + " : " + amount;
     }
 }

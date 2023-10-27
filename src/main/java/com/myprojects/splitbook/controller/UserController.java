@@ -4,7 +4,6 @@ import com.myprojects.splitbook.entity.Contribution;
 import com.myprojects.splitbook.entity.Member;
 import com.myprojects.splitbook.entity.Trip;
 import com.myprojects.splitbook.entity.UserLogin;
-import com.myprojects.splitbook.entity.dto.RecordsDto;
 import com.myprojects.splitbook.entity.dto.UserDto;
 import com.myprojects.splitbook.exception.ForbiddenException;
 import com.myprojects.splitbook.service.BusinessUtils;
@@ -53,14 +52,8 @@ public class UserController {
         {
             throw new ForbiddenException();
         }
-        model.addAttribute("trip",trip);
-        List<Member> members = tripService.getTripMembers(trip.getId());
-        model.addAttribute("mymembers",members);
-        model.addAttribute("contribution",new Contribution());
-        List<RecordsDto> records = utils.parseTripContributions(trip);
-        model.addAttribute("records",records);
-        model.addAttribute("memberscount",members.size());
-        model.addAttribute("totalexpense",tripService.getTotalExpense(id));
+
+        utils.initDashboardAttributes(trip,model);
         return "dashboard";
     }
 
@@ -73,7 +66,7 @@ public class UserController {
         String res = userFriendService.sendFriendRequest(user1.getId(),user2.getId());
         model.addAttribute("msg2",res);
 
-        utils.initAttributes(user1,model);
+        utils.initHomepageAttributes(user1,model);
 
         return "homepage";
     }
@@ -87,7 +80,7 @@ public class UserController {
         String msg = userFriendService.declineFriendRequest(query,user2.getId());
         model.addAttribute("msg3",msg);
 
-        utils.initAttributes(user1,model);
+        utils.initHomepageAttributes(user1,model);
 
         return "redirect:/welcome";
     }
@@ -101,7 +94,7 @@ public class UserController {
         String msg = userFriendService.acceptFriendRequest(query,user2.getId());
         model.addAttribute("msg3",msg);
 
-        utils.initAttributes(user1,model);
+        utils.initHomepageAttributes(user1,model);
 
         return "redirect:/welcome";
     }
@@ -113,16 +106,9 @@ public class UserController {
         Trip trip = tripService.getTripById(tripid);
         UserDto userDto = utils.userDtoMapper(userLogin);
         String res = tripService.addMemberToTrip(userDto,tripid);
-
         model.addAttribute("msg1",res);
-        model.addAttribute("trip",trip);
-        List<Member> members = tripService.getTripMembers(trip.getId());
-        model.addAttribute("mymembers",members);
-        model.addAttribute("contribution",new Contribution());
-        List<RecordsDto> records = utils.parseTripContributions(trip);
-        model.addAttribute("records",records);
-        model.addAttribute("memberscount",members.size());
-        model.addAttribute("totalexpense",tripService.getTotalExpense(tripid));
+
+        utils.initDashboardAttributes(trip,model);
         return "dashboard";
     }
 
