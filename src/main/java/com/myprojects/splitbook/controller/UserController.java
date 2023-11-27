@@ -48,7 +48,7 @@ public class UserController {
     {
         Trip trip = tripService.getTripById(id);
         UserLogin user = loginService.getUserByUsername(authentication.getName());
-        if(trip.getOwnerId()!=user.getId())     //unauthorized if user tries to get other's trips
+        if(trip==null || trip.getOwnerId()!=user.getId())     //unauthorized if user tries to get other's trips
         {
             throw new ForbiddenException();
         }
