@@ -8,6 +8,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -36,8 +37,7 @@ public class UserFriendsRepository {
     {
         TypedQuery<UserDto> query = entityManager.createQuery(query_find_users_friends, UserDto.class);
         query.setParameter("userone",userId);
-        List resultList = query.getResultList();
-        return resultList;
+        return query.getResultList();
     }
 
     public boolean insertFriendMapping(UserFriendMapping userFriendMapping)
@@ -54,7 +54,7 @@ public class UserFriendsRepository {
         }
         catch (Exception e)
         {
-            System.out.println(e.getStackTrace());
+            System.out.println(Arrays.toString(e.getStackTrace()));
         }
         return false;
     }
@@ -63,7 +63,6 @@ public class UserFriendsRepository {
     {
         TypedQuery<UserDto> query = entityManager.createQuery(query_find_friend_requests, UserDto.class);
         query.setParameter("usertwo",id);
-        List<UserDto> resultList = query.getResultList();
-        return resultList;
+        return query.getResultList();
     }
 }
